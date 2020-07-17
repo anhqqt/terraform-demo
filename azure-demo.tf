@@ -1,12 +1,13 @@
 resource "azurerm_resource_group" "devops" {
-  name     = "Anh-DevOps-Backup"
+  name     = "Anh-DevOps"
   location = "Southeast Asia"
 }
 
 module "jenkins-vm" {
   source                        = "Azure/compute/azurerm"
   resource_group_name           = azurerm_resource_group.devops.name
-  vm_hostname                   = "jenkins-vm"
+  location                      = azurerm_resource_group.devops.location
+  vm_hostname                   = "jenkins"
   admin_username                = "matdecha"
   ssh_key                       = "${var.public_key}"
   # remote_port                   = "${var.vm_remote_port["SSH"]}"
@@ -20,14 +21,14 @@ module "jenkins-vm" {
 
   tags = {
     environment = "dev"
-    costcenter  = "it"
   }
 }
 
 module "webserver-vm" {
   source                        = "Azure/compute/azurerm"
   resource_group_name           = azurerm_resource_group.devops.name
-  vm_hostname                   = "webserver-vm"
+  location                      = azurerm_resource_group.devops.location
+  vm_hostname                   = "webserver"
   admin_username                = "matdecha"
   ssh_key                       = "${var.public_key}"
   # remote_port                   = "${var.vm_remote_port["SSH"]}"
@@ -41,7 +42,6 @@ module "webserver-vm" {
 
   tags = {
     environment = "dev"
-    costcenter  = "it"
   }
 }
 
@@ -60,12 +60,12 @@ module "vnet" {
 
   tags = {
     environment = "dev"
-    costcenter  = "it"
   }
 }
 
 module "jenkins-nsg" {
   source                = "Azure/network-security-group/azurerm"
+  version               = "3.0.0"
   resource_group_name   = azurerm_resource_group.devops.name
   security_group_name   = "jenkins-nsg"
   predefined_rules = [
@@ -88,12 +88,12 @@ module "jenkins-nsg" {
 
   tags = {
     environment = "dev"
-    costcenter  = "it"
   }
 }
 
 module "webserver-nsg" {
   source                = "Azure/network-security-group/azurerm"
+  version               = "3.0.0"
   resource_group_name   = azurerm_resource_group.devops.name
   security_group_name   = "webserver-nsg"
   predefined_rules = [
@@ -124,6 +124,5 @@ module "webserver-nsg" {
 
   tags = {
     environment = "dev"
-    costcenter  = "it"
   }
 }
