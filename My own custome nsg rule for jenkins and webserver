@@ -1,0 +1,61 @@
+# My own custome nsg rule for jenkins
+resource "azurerm_network_security_rule" "jenkins" {
+  name                        = "allow_jenkins_8080_in"
+  resource_group_name         = data.azurerm_resource_group.vm.name
+  description                 = "Allow remote protocol in from all locations"
+  priority                    = 110
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "8080"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  network_security_group_name = azurerm_network_security_group.vm.name
+}
+
+# My own custome nsg rule for webserver
+resource "azurerm_network_security_rule" "http" {
+  name                        = "allow_http_80_in"
+  resource_group_name         = data.azurerm_resource_group.vm.name
+  description                 = "Allow remote protocol in from all locations"
+  priority                    = 110
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "80"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  network_security_group_name = azurerm_network_security_group.vm.name
+}
+
+resource "azurerm_network_security_rule" "https" {
+  name                        = "allow_https_443_in"
+  resource_group_name         = data.azurerm_resource_group.vm.name
+  description                 = "Allow remote protocol in from all locations"
+  priority                    = 120
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "443"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  network_security_group_name = azurerm_network_security_group.vm.name
+}
+
+resource "azurerm_network_security_rule" "phpmyadmin" {
+  name                        = "allow_phpmyadmin_3333_in"
+  resource_group_name         = data.azurerm_resource_group.vm.name
+  description                 = "Allow remote protocol in from all locations"
+  priority                    = 130
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "3333"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  network_security_group_name = azurerm_network_security_group.vm.name
+}
