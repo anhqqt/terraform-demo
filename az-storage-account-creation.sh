@@ -1,3 +1,5 @@
+# https://docs.microsoft.com/en-us/azure/developer/terraform/store-state-in-azure-storage
+
 #!/bin/bash
 
 RESOURCE_GROUP_NAME=tfstate
@@ -19,3 +21,6 @@ az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOU
 echo "storage_account_name: $STORAGE_ACCOUNT_NAME"
 echo "container_name: $CONTAINER_NAME"
 echo "access_key: $ACCOUNT_KEY"
+
+export ARM_ACCESS_KEY=$ACCOUNT_KEY
+export ARM_ACCESS_KEY=$(az keyvault secret show --name terraform-backend-key --vault-name myKeyVault --query value -o tsv)

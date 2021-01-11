@@ -23,10 +23,10 @@ output "webserver-vm_url" {
 }
 
 ### The Ansible inventory file
-resource "local_file" "AnsibleInventory" {
-  content = templatefile("inventory.tmpl", {
-    jenkins-vm-ip = module.jenkins_vm.public_ip_address
-    webserver-vm-ip = module.webserver_vm.public_ip_address
-  })
-  filename = "../ansible-demo/hosts.txt"
-}
+# resource "local_file" "AnsibleInventory" {
+#   content = templatefile("inventory.tmpl", {
+#     jenkins-vm-ip = module.jenkins_vm.public_ip_address
+#     webserver-vm-ip = module.webserver_vm.public_ip_address
+#   })
+#   filename = "../ansible-demo/hosts.txt"
+# }
