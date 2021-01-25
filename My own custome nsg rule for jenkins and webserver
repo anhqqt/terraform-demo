@@ -1,8 +1,23 @@
-# My own custome nsg rule for jenkins
+# My own custom nsg rule for allow all traffic to nsg - nic
+resource "azurerm_network_security_rule" "allow-all" {
+  name                        = "allow_all"
+  resource_group_name         = data.azurerm_resource_group.vm.name
+  description                 = "Allow all traffic to nic nsg"
+  priority                    = 110
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "*"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  network_security_group_name = azurerm_network_security_group.vm.name
+
+# My own custom nsg rule for jenkins
 resource "azurerm_network_security_rule" "jenkins" {
   name                        = "allow_jenkins_8080_in"
   resource_group_name         = data.azurerm_resource_group.vm.name
-  description                 = "Allow remote protocol in from all locations"
+  description                 = "Allow port for Jenkins service"
   priority                    = 110
   direction                   = "Inbound"
   access                      = "Allow"
@@ -14,11 +29,11 @@ resource "azurerm_network_security_rule" "jenkins" {
   network_security_group_name = azurerm_network_security_group.vm.name
 }
 
-# My own custome nsg rule for webserver
+# My own custom nsg rule for webserver
 resource "azurerm_network_security_rule" "http" {
   name                        = "allow_http_80_in"
   resource_group_name         = data.azurerm_resource_group.vm.name
-  description                 = "Allow remote protocol in from all locations"
+  description                 = "Allow port for HTTP traffic"
   priority                    = 110
   direction                   = "Inbound"
   access                      = "Allow"
@@ -33,7 +48,7 @@ resource "azurerm_network_security_rule" "http" {
 resource "azurerm_network_security_rule" "https" {
   name                        = "allow_https_443_in"
   resource_group_name         = data.azurerm_resource_group.vm.name
-  description                 = "Allow remote protocol in from all locations"
+  description                 = "Allow port for HTTPS traffic"
   priority                    = 120
   direction                   = "Inbound"
   access                      = "Allow"
@@ -48,7 +63,7 @@ resource "azurerm_network_security_rule" "https" {
 resource "azurerm_network_security_rule" "phpmyadmin" {
   name                        = "allow_phpmyadmin_3333_in"
   resource_group_name         = data.azurerm_resource_group.vm.name
-  description                 = "Allow remote protocol in from all locations"
+  description                 = "Allow port for PHPMyAdmin service"
   priority                    = 130
   direction                   = "Inbound"
   access                      = "Allow"

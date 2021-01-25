@@ -12,7 +12,7 @@ variable "vm_remote_port" {
 }
 
 
-variable "public_key" {
-    type    = "string"
-    default = ".ssh/id_rsa.pub"
-}
+# variable "public_key" {
+#     type    = "string"
+#     default = ".ssh/id_rsa.pub"
+# }
